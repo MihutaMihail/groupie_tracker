@@ -41,11 +41,14 @@ func getRelationsAPI() {
 }
 
 // This function will show (only terminal) all the relations
-func GetRelationsAPI() {
+func GetRelationsAPI() []Relation {
 	getRelationsAPI()
+	return rObjectRelation.Relations
 
-	for i := 0; i < len(rObjectRelation.Relations); i++ {
-		fmt.Print(rObjectRelation.Relations[i].Id)
-		fmt.Println(rObjectRelation.Relations[i].DatesLocations)
-	}
+	/*
+		for i := 0; i < len(rObjectRelation.Relations); i++ {
+			fmt.Print(rObjectRelation.Relations[i].Id)
+			fmt.Println(rObjectRelation.Relations[i].DatesLocations)
+		}
+	*/
 }

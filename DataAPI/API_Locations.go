@@ -41,11 +41,14 @@ func getLocationsAPI() {
 }
 
 // This function will show (only terminal) all the locations
-func GetLocationsData() {
+func GetLocationsData() []Location {
 	getLocationsAPI()
+	return rObjectLocations.Locations
 
-	for i := 0; i < len(rObjectLocations.Locations); i++ {
-		fmt.Print(rObjectLocations.Locations[i].Id)
-		fmt.Println(rObjectLocations.Locations[i].Locations)
-	}
+	/*
+		for i := 0; i < len(rObjectLocations.Locations); i++ {
+			fmt.Print(rObjectLocations.Locations[i].Id)
+			fmt.Println(rObjectLocations.Locations[i].Locations)
+		}
+	*/
 }
