@@ -10,13 +10,14 @@ import (
 )
 
 var (
-	artists     []DataAPI.Artist
-	coordinates []float64
+	artists             []DataAPI.Artist
+	coordinatesResponse []float64
 )
 
 func main() {
-	artists = DataAPI.GetArtistsData()
-	fmt.Println(artists[0].Name)
+	// TEST
+	coordinatesResponse = Geocoding.GetGeocodeLocation("north_carolina-usa")
+	fmt.Println(coordinatesResponse)
 
 	// créé l'appli et une fenêtre
 	a := app.New()
@@ -24,7 +25,4 @@ func main() {
 	Windows.TestWindow(a)
 
 	a.Run()
-
-	coordinates = Geocoding.GetGeocodeLocation("north_carolina-usa")
-	fmt.Println(coordinates)
 }

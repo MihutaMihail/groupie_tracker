@@ -10,11 +10,11 @@ import (
 
 // Declaration of variables
 var (
-	openCageKeyAPI = "7fa0cecf85af4b48bb0f64bc929f7070" // Mihail Key
-	Coordinates    []float64
-	longitude      float64
-	latitude       float64
-	values         map[string]interface{}
+	openCageKeyAPI      = "7fa0cecf85af4b48bb0f64bc929f7070" // Mihail Key
+	coordinatesLocation []float64
+	longitude           float64
+	latitude            float64
+	values              map[string]interface{}
 )
 
 // Function that will return the geographical coordinates of a place
@@ -48,6 +48,6 @@ out:
 		}
 	}
 
-	Coordinates = append(Coordinates, latitude, longitude)
-	return Coordinates
+	coordinatesLocation = append(coordinatesLocation, latitude, longitude)
+	return coordinatesLocation
 }
