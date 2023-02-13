@@ -45,7 +45,7 @@ func TestWindow(a fyne.App) {
 		// Code
 	})
 
-	content := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(5), btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8)
+	content := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(2), btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8)
 
 	w.SetContent(content)
 

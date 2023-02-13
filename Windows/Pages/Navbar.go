@@ -19,7 +19,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 	BtnArtistes := widget.NewButton("Artistes", func() {
 		log.Println("BtnArtistes")
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Artist()))
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(w)))
 	})
 	BtnLieux := widget.NewButton("Lieux", func() {
 		log.Println("BtnLieux")

@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"Groupie-Tracker/DataAPI"
 	"fmt"
 	"image/color"
 
@@ -10,7 +11,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 )
 
-func Artist() fyne.CanvasObject {
+func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 	// IMAGE IMPORT
 	r, err := fyne.LoadResourceFromURLString("https://groupietrackers.herokuapp.com/api/images/imagineDragons.jpeg")
 	if err != nil {
@@ -18,7 +19,8 @@ func Artist() fyne.CanvasObject {
 	}
 
 	// ITEMS ---------------------------------------------------------
-	title := canvas.NewText("title", color.Black)
+	title := canvas.NewText(artist.Name, color.Black)
+	title.TextSize = 25
 	image1 := canvas.NewImageFromResource(r)
 	image2 := canvas.NewText("Map", color.Black)
 	text1 := canvas.NewText("text1", color.Black)

@@ -10,10 +10,10 @@ import (
 
 func MainWindow(a fyne.App) {
 	w := a.NewWindow("Groupie Tracker")
-	w.Resize(fyne.NewSize(400, 400))
+	w.Resize(fyne.NewSize(750, 400))
 	w.SetMaster()
 
-	body := pages.Artist()
+	body := pages.Home()
 	nav := pages.Navbar(w)
 	content := container.NewBorder(nav, nil, nil, nil, body)
 
