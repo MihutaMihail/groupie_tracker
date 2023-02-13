@@ -41,12 +41,15 @@ func getDatesAPI() {
 }
 
 // This function will show (only terminal) all the dates
-func GetDatesAPI() {
+func GetDatesAPI() []Date {
 	getDatesAPI()
+	return rObjectDates.Dates
 
-	for i := 0; i < len(rObjectDates.Dates); i++ {
-		fmt.Print(rObjectDates.Dates[i].Id)
-		fmt.Print("   ")
-		fmt.Println(rObjectDates.Dates[i].Dates)
-	}
+	/*
+		for i := 0; i < len(rObjectDates.Dates); i++ {
+			fmt.Print(rObjectDates.Dates[i].Id)
+			fmt.Print("   ")
+			fmt.Println(rObjectDates.Dates[i].Dates)
+		}
+	*/
 }

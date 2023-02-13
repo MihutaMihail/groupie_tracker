@@ -2,6 +2,7 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -32,6 +33,7 @@ func findArtist(name string, artists []DataAPI.Artist, w fyne.Window) {
 		if artist.Name == name {
 			// Lance la navbar la page Artist, modifé avec la data correspondante
 			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Artist(artist)))
+			log.Println("Went to " + name + " (artist) page")
 		}
 	}
 }

@@ -4,6 +4,8 @@ import (
 	"Groupie-Tracker/DataAPI"
 	"fmt"
 	"image/color"
+	"log"
+	"strconv"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -37,9 +39,18 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 	// Image
 	image1 := canvas.NewImageFromResource(r)
 	image1.FillMode = canvas.ImageFillContain
-	image2 := canvas.NewText("Map", color.Black)
-	text1 := canvas.NewText("text1", color.Black)
-	text2 := canvas.NewText("text2", color.Black)
+
+	// Bottom Left Text
+	StartYText := canvas.NewText("Date de création : "+strconv.Itoa(artist.CreationDate), color.Black)
+	StartYText.TextSize = 20
+	StartY := container.New(layout.NewCenterLayout(), StartYText)
+	FirstAlbumText := canvas.NewText("Premier album : "+artist.FirstAlbum, color.Black)
+	FirstAlbumText.TextSize = 20
+	FirstAlbum := container.New(layout.NewCenterLayout(), FirstAlbumText)
+	BLText := container.NewVBox(StartY, FirstAlbum)
+
+	// Bottom Right Text
+	BRText := container.NewVBox(layout.NewSpacer(), DateScreen(artist.Id), layout.NewSpacer())
 
 	//
 
@@ -48,8 +59,46 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 		container.NewBorder(
 			container.New(layout.NewCenterLayout(), TopText), nil, nil, nil,
 			container.New(layout.NewAdaptiveGridLayout(5),
-				layout.NewSpacer(), image1, layout.NewSpacer(), image2, layout.NewSpacer(),
-				layout.NewSpacer(), text1, layout.NewSpacer(), text2, layout.NewSpacer())))
+				layout.NewSpacer(), image1, layout.NewSpacer(), BRText, layout.NewSpacer(),
+				layout.NewSpacer(), BLText, layout.NewSpacer(), layout.NewSpacer(), layout.NewSpacer())))
 
 	return body
+}
+
+func DateScreen(id int) *fyne.Container {
+	locations := getLocationsByID(id)
+	relations := getRelationByID(id)
+
+	BRText := container.NewVBox()
+
+	for _, location := range locations.Locations {
+		text := canvas.NewText(location+" : "+relations.DatesLocations[location][0], color.Black)
+		text.TextSize = 20
+		textCentered := container.New(layout.NewCenterLayout(), text)
+		BRText.Add(textCentered)
+	}
+
+	return BRText
+}
+
+func getLocationsByID(Id int) DataAPI.Location {
+	locations := DataAPI.GetLocationsData()
+	for _, location := range locations {
+		if location.Id == Id {
+			return location
+		}
+	}
+	log.Println("ERROR : Searched for " + strconv.Itoa(Id) + " (date) and NOT FOUND")
+	return locations[0]
+}
+
+func getRelationByID(Id int) DataAPI.Relation {
+	relations := DataAPI.GetRelationsAPI()
+	for _, relation := range relations {
+		if relation.Id == Id {
+			return relation
+		}
+	}
+	log.Println("ERROR : Searched for " + strconv.Itoa(Id) + " (relation) and NOT FOUND")
+	return relations[0]
 }
