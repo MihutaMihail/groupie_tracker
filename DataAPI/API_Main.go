@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-type Response struct {
+type ResponseMain struct {
 	ArtistURL   string `json:"artists"`
 	LocationURL string `json:"locations"`
 	DateURL     string `json:"dates"`
@@ -17,7 +17,7 @@ type Response struct {
 }
 
 var (
-	rObjectAPI Response
+	rObjectAPI ResponseMain
 )
 
 // This function's purpose is to retrieve the data stored in the API. All information will be stored in the RESPONSE struct

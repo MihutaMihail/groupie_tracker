@@ -40,11 +40,14 @@ func getArtistsAPI() {
 	json.Unmarshal(rDataArtists, &rObjectArtists)
 }
 
-// This function will show (in the console) all the artists
-func GetArtistsData() {
+// This function will show (only terminal) all the artists
+func GetArtistsData() []Artist {
 	getArtistsAPI()
 
-	for num := range rObjectArtists {
+	return rObjectArtists
+
+	// Get all artists
+	/*for num := range rObjectArtists {
 		fmt.Print(rObjectArtists[num].Id)
 		fmt.Print(rObjectArtists[num].Image)
 		fmt.Print(rObjectArtists[num].Name)
@@ -52,5 +55,5 @@ func GetArtistsData() {
 		fmt.Print(rObjectArtists[num].CreationDate)
 		fmt.Print(rObjectArtists[num].FirstAlbum)
 		fmt.Println()
-	}
+	}*/
 }
