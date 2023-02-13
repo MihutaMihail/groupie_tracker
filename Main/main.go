@@ -2,10 +2,8 @@ package main
 
 import (
 	"Groupie-Tracker/DataAPI"
-	"Groupie-Tracker/Windows"
+	"Groupie-Tracker/Geocoding"
 	"fmt"
-
-	"fyne.io/fyne/v2/app"
 )
 
 var (
@@ -13,7 +11,7 @@ var (
 )
 
 func main() {
-	artists = DataAPI.GetArtistsData()
+	/*artists = DataAPI.GetArtistsData()
 	fmt.Println(artists[0].Name)
 
 	// créé l'appli et une fenêtre
@@ -21,5 +19,8 @@ func main() {
 	Windows.MainWindow(a)
 	Windows.TestWindow(a)
 
-	a.Run()
+	a.Run()*/
+
+	coordinates := Geocoding.GetGeocodeLocation("north_carolina-usa")
+	fmt.Println(coordinates)
 }
