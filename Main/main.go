@@ -2,9 +2,7 @@ package main
 
 import (
 	"Groupie-Tracker/DataAPI"
-	"Groupie-Tracker/Geocoding"
 	"Groupie-Tracker/Windows"
-	"fmt"
 
 	"fyne.io/fyne/v2/app"
 )
@@ -15,10 +13,6 @@ var (
 )
 
 func main() {
-	// TEST
-	coordinatesResponse = Geocoding.GetGeocodeLocation("Germany Mainz")
-	fmt.Println(coordinatesResponse)
-
 	// créé l'appli et une fenêtre
 	a := app.New()
 	Windows.MainWindow(a)
