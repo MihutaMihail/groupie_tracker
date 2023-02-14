@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	artists []DataAPI.Artist
+	artists             []DataAPI.Artist
+	coordinatesResponse []float64
 )
 
 func main() {
@@ -24,7 +25,6 @@ func main() {
 
 	a.Run()
 
-	// tests geocoding
 	coordinates := Geocoding.GetGeocodeLocation("north_carolina-usa")
 	fmt.Println(coordinates)
 }
