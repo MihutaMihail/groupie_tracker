@@ -22,7 +22,7 @@ func main() {
 	// créé l'appli et une fenêtre
 	a := app.New()
 	Windows.MainWindow(a)
-	Windows.TestWindow(a)
+	//Windows.TestWindow(a)
 
 	a.Run()
 }

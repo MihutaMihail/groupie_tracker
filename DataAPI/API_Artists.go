@@ -38,6 +38,7 @@ func getArtistsAPI() {
 	}
 
 	json.Unmarshal(rDataArtists, &rObjectArtists)
+
 }
 
 // This function will show (only terminal) all the artists
