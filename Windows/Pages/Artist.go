@@ -50,7 +50,7 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 	BLText := container.NewVBox(StartY, FirstAlbum)
 
 	// Bottom Right Text
-	BRText := container.NewVBox(layout.NewSpacer(), DateScreen(artist.Id), layout.NewSpacer())
+	BRText := container.NewVBox(layout.NewSpacer(), container.NewMax(canvas.NewRectangle(color.RGBA{R: 100, G: 100, B: 115, A: 1}), DateScreen(artist.Id)), layout.NewSpacer())
 
 	//
 

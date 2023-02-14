@@ -13,7 +13,7 @@ func MainWindow(a fyne.App) {
 	w.Resize(fyne.NewSize(750, 400))
 	w.SetMaster()
 
-	body := pages.Home()
+	body := pages.Home(w)
 	nav := pages.Navbar(w)
 	content := container.NewBorder(nav, nil, nil, nil, body)
 

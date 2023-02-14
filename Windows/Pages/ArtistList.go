@@ -21,14 +21,14 @@ func ArtistList(w fyne.Window) fyne.CanvasObject {
 		// Artist(artist) doesn't work, all button ends up the same (only last artist is remembered when you press the button)
 		// So we need to find again the artist with the btn.Text
 		btn.OnTapped = func() {
-			findArtist(btn.Text, artists, w)
+			FindArtist(btn.Text, artists, w)
 		}
 		listContainer.Add(btn)
 	}
 	return listContainer
 }
 
-func findArtist(name string, artists []DataAPI.Artist, w fyne.Window) {
+func FindArtist(name string, artists []DataAPI.Artist, w fyne.Window) {
 	for _, artist := range artists {
 		if artist.Name == name {
 			// Lance la navbar la page Artist, modifé avec la data correspondante
