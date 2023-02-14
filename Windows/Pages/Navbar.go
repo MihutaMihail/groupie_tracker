@@ -43,12 +43,16 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	// TEST Geolocalisation (not permanent)
 
 	BtnClose := widget.NewButton("X", func() {
-		w.Close()
+		if w.FullScreen() == false {
+			w.SetFullScreen(true)
+		} else {
+			w.Close()
+		}
 	})
 
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		fyne.NewContainerWithLayout(layout.NewGridLayout(12),
+		fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 			layout.NewSpacer(),
 			BtnHome,
 			layout.NewSpacer(),

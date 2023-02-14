@@ -40,16 +40,29 @@ func Home(w fyne.Window) fyne.CanvasObject {
 }
 
 func artistGrid(w fyne.Window) *fyne.Container {
+	var alreadyInt []int
 	seed := rand.NewSource(time.Now().UnixNano())
 	random := rand.New(seed)
 	artists := DataAPI.GetArtistsData()
 
 	content := container.NewAdaptiveGrid(4)
 
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 8; i++ {
 		randomInt := random.Intn(len(artists) - 1)
-		artistToMake := artists[randomInt]
-		content.Add(artistCard(artistToMake, artists, w))
+		double := false
+		for _, num := range alreadyInt {
+			if randomInt == num {
+				double = true
+				break
+			}
+		}
+		if double {
+			i--
+		} else {
+			alreadyInt = append(alreadyInt, randomInt)
+			artistToMake := artists[randomInt]
+			content.Add(artistCard(artistToMake, artists, w))
+		}
 	}
 
 	contentCentered := container.NewCenter(content)

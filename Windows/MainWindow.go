@@ -12,6 +12,8 @@ func MainWindow(a fyne.App) {
 	w := a.NewWindow("Groupie Tracker")
 	w.Resize(fyne.NewSize(750, 400))
 	w.SetMaster()
+
+	// à désactiver pour les tests et l'accès console
 	//w.SetFullScreen(true)
 
 	body := pages.Home(w)
