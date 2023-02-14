@@ -35,6 +35,12 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		fmt.Println(DataTest)
 
 	})
+	// TEST Geolocalisation (not permanent)
+	BtnGeoLocalisation := widget.NewButton("Geolocalisation", func() {
+		log.Println("BtnGeoLocalisation")
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Geolocalisation()))
+	})
+	// TEST Geolocalisation (not permanent)
 
 	BtnClose := widget.NewButton("X", func() {
 		w.Close()
@@ -51,6 +57,10 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			BtnLieux,
 			layout.NewSpacer(),
 			SearchText,
+			// TEST Geolocalisation (not permanent)
+			BtnGeoLocalisation,
+			layout.NewSpacer(),
+			// TEST Geolocalisation (not permanent)
 			BtnSubmit,
 			layout.NewSpacer(),
 			BtnClose,
