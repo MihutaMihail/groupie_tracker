@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
-	"net/url"
+	"strings"
 )
 
 // Declaration of variables
@@ -19,24 +20,24 @@ var (
 
 // Function that will return the geographical coordinates of a place
 func GetGeocodeLocation(locationMaps string) []float64 {
-	url.QueryEscape(locationMaps)
+	locationMaps = makeLocationURLValid(locationMaps)
 	urlOpenCage := ("https://api.opencagedata.com/geocode/v1/json?q=" + locationMaps + "&key=" + openCageKeyAPI)
 	fmt.Println("Geocode URL " + urlOpenCage)
 
 	response, err := http.Get(urlOpenCage)
 	if err != nil {
-		panic("Error retrieving response")
+		log.Fatal(err)
 	}
 
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		panic("Error retrieving response")
+		log.Fatal(err)
 	}
 
 	json.Unmarshal(body, &values)
 
 	// This block of code will search through the API's response to get the important information
-	// Usually, there will be more than 1 location found so we'll take the first one and get out of the loop
+	// Usually, the API will found multiple locations so we'll take the first one (which seems to be the most accurate) and get out of the loop
 out:
 	for _, v := range values["results"].([]interface{}) {
 		for i2, v2 := range v.(map[string]interface{}) {
@@ -50,4 +51,12 @@ out:
 
 	coordinatesLocation = append(coordinatesLocation, latitude, longitude)
 	return coordinatesLocation
+}
+
+// This function will the location name and transforming it by replacing '_' or '-' or ' ' by a '+'
+// If not, the URL will not be valid and we will not get a location
+func makeLocationURLValid(locationName string) string {
+	replacer := strings.NewReplacer("_", "+", "-", "+", " ", "+")
+
+	return replacer.Replace(locationName)
 }

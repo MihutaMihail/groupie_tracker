@@ -16,7 +16,7 @@ var (
 
 func main() {
 	// TEST
-	coordinatesResponse = Geocoding.GetGeocodeLocation("north_carolina-usa")
+	coordinatesResponse = Geocoding.GetGeocodeLocation("Germany Mainz")
 	fmt.Println(coordinatesResponse)
 
 	// créé l'appli et une fenêtre
