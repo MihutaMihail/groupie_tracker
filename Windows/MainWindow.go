@@ -12,6 +12,7 @@ func MainWindow(a fyne.App) {
 	w := a.NewWindow("Groupie Tracker")
 	w.Resize(fyne.NewSize(750, 400))
 	w.SetMaster()
+	//w.SetFullScreen(true)
 
 	body := pages.Home(w)
 	nav := pages.Navbar(w)

@@ -36,9 +36,13 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 
 	})
 
+	BtnClose := widget.NewButton("X", func() {
+		w.Close()
+	})
+
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		fyne.NewContainerWithLayout(layout.NewGridLayout(10),
+		fyne.NewContainerWithLayout(layout.NewGridLayout(12),
 			layout.NewSpacer(),
 			BtnHome,
 			layout.NewSpacer(),
@@ -48,6 +52,8 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			layout.NewSpacer(),
 			SearchText,
 			BtnSubmit,
+			layout.NewSpacer(),
+			BtnClose,
 			layout.NewSpacer()))
 
 	return nav
