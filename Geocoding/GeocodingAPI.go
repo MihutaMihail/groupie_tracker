@@ -15,11 +15,11 @@ var (
 	coordinatesLocation []float64
 	longitude           float64
 	latitude            float64
-	values              map[string]interface{}
+	valuesGeocoding     map[string]interface{}
 )
 
 // Function that will return the geographical coordinates of a place
-func GetGeocodeLocation(locationMaps string) []float64 {
+func GetGeocodeCoordinates(locationMaps string) []float64 {
 	locationMaps = makeLocationURLValid(locationMaps)
 	urlOpenCage := ("https://api.opencagedata.com/geocode/v1/json?q=" + locationMaps + "&key=" + openCageKeyAPI)
 	fmt.Println("Geocode URL " + urlOpenCage)
@@ -34,12 +34,12 @@ func GetGeocodeLocation(locationMaps string) []float64 {
 		log.Fatal(err)
 	}
 
-	json.Unmarshal(body, &values)
+	json.Unmarshal(body, &valuesGeocoding)
 
 	// This block of code will search through the API's response to get the important information
 	// Usually, the API will found multiple locations so we'll take the first one (which seems to be the most accurate) and get out of the loop
 out:
-	for _, v := range values["results"].([]interface{}) {
+	for _, v := range valuesGeocoding["results"].([]interface{}) {
 		for i2, v2 := range v.(map[string]interface{}) {
 			if i2 == "geometry" {
 				latitude = v2.(map[string]interface{})["lat"].(float64)

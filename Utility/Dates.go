@@ -1,7 +1,6 @@
 package utility
 
 import (
-	"fmt"
 	"log"
 	"sort"
 	"time"
@@ -14,7 +13,6 @@ func SortDates(datesWithAsterix []string) []string {
 	var dates []string
 	var times []time.Time
 
-	fmt.Println(datesWithAsterix)
 	// enlève les asterix
 	for _, date := range datesWithAsterix {
 		if date[0] == '*' {
@@ -42,6 +40,5 @@ func SortDates(datesWithAsterix []string) []string {
 		finalList = append(finalList, tm)
 	}
 
-	fmt.Print(finalList)
 	return finalList
 }

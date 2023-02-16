@@ -2,6 +2,7 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	utility "Groupie-Tracker/Utility"
 	"fmt"
 	"image/color"
 	"log"
@@ -66,16 +67,23 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 }
 
 func DateScreen(id int) *fyne.Container {
+	DLCouple := make(map[string]string)
+	var dateList []string
+
 	locations := getLocationsByID(id)
 	relations := getRelationByID(id)
 
 	BRText := container.NewVBox()
 
 	for _, location := range locations.Locations {
-		text := canvas.NewText(location+" : "+relations.DatesLocations[location][0], color.Black)
-		text.TextSize = 20
-		textCentered := container.New(layout.NewCenterLayout(), text)
-		BRText.Add(textCentered)
+		DLCouple[relations.DatesLocations[location][0]] = location
+		dateList = append(dateList, relations.DatesLocations[location][0])
+	}
+	sortedDateList := utility.SortDates(dateList)
+
+	for _, date := range sortedDateList {
+		text := canvas.NewText(date+" : "+DLCouple[date], color.Black)
+		BRText.Add(text)
 	}
 
 	return BRText

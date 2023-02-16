@@ -38,10 +38,24 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		Search.SearchBar(DataSearchBar, artists, w)
 		//fmt.Println(DataSearchBar)
 	})
+	// TEST Geolocalisation (not permanent)
+	BtnGeoLocalisation := widget.NewButton("Geolocalisation", func() {
+		log.Println("BtnGeoLocalisation")
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Geolocalisation()))
+	})
+	// TEST Geolocalisation (not permanent)
+
+	BtnClose := widget.NewButton("X", func() {
+		if w.FullScreen() == false {
+			w.SetFullScreen(true)
+		} else {
+			w.Close()
+		}
+	})
 
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		fyne.NewContainerWithLayout(layout.NewGridLayout(10),
+		fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 			layout.NewSpacer(),
 			BtnHome,
 			layout.NewSpacer(),
@@ -50,7 +64,13 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			BtnLieux,
 			layout.NewSpacer(),
 			SearchText,
+			// TEST Geolocalisation (not permanent)
+			BtnGeoLocalisation,
+			layout.NewSpacer(),
+			// TEST Geolocalisation (not permanent)
 			BtnSubmit,
+			layout.NewSpacer(),
+			BtnClose,
 			layout.NewSpacer()))
 
 	return nav
