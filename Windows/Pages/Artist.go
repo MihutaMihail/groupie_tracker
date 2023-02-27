@@ -87,8 +87,8 @@ func DateScreen(id int) *fyne.Container {
 		final.Add(layout.NewSpacer())
 
 	}
-	finalScroll := container.NewScroll(final)
-	finalScroll.SetMinSize(fyne.NewSize(300, 500))
+	finalScroll := container.NewScroll(container.NewCenter(final))
+	finalScroll.SetMinSize(fyne.NewSize(300, 300))
 	return container.NewVBox(finalScroll)
 }
 
@@ -107,7 +107,7 @@ func makeLocationDateList(id int, location string, relations DataAPI.Relation) *
 		}
 	}
 	textUnwrapped := canvas.NewText(textFinal, color.Black)
-	textWrapped := utility.CanvasTextWrap(50, textUnwrapped, color.Black)
+	textWrapped := utility.CanvasTextWrap(45, textUnwrapped, color.Black)
 	final.Add(textWrapped)
 
 	return final
