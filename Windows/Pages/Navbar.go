@@ -25,7 +25,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 	BtnLieux := widget.NewButton("Lieux", func() {
 		log.Println("BtnLieux")
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Lieux()))
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, MakeLieuxList(w)))
 	})
 
 	SearchText := widget.NewEntry()
