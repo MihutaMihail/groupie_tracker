@@ -30,12 +30,12 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 
 	entry := fynex.NewCompletionEntry([]string{})
-	entry.SetPlaceHolder("Coucou")
+	entry.SetPlaceHolder("Search ...")
 	entry.OnChanged = func(s string) {
 		Autocompletion(s, entry, artists)
 	}
 
-	BtnSubmit2 := widget.NewButton("Submit", func() {
+	BtnSubmit := widget.NewButton("Submit", func() {
 		log.Println("BtnSubmit")
 		DataSearchBar = entry.Text
 		entry.Text = ""
@@ -49,7 +49,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			BtnArtistes,
 			BtnLieux,
 			entry,
-			BtnSubmit2))
+			BtnSubmit))
 
 	return nav
 }
