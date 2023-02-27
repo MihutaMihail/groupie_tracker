@@ -1,8 +1,6 @@
 package pages
 
 import (
-	"Groupie-Tracker/DataAPI"
-	"Groupie-Tracker/Search"
 	"image/color"
 	"log"
 
@@ -14,7 +12,7 @@ import (
 )
 
 func Navbar(w fyne.Window) fyne.CanvasObject {
-	artists := DataAPI.GetArtistsData()
+	//artists := DataAPI.GetArtistsData()
 	var DataSearchBar string
 	// NAVBAR BUTTONS ------------------------------------------------
 	BtnHome := widget.NewButton("Home", func() {
@@ -33,9 +31,11 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	SearchText := widget.NewEntry()
 	SearchText.SetPlaceHolder("Faire une recherche")
 	BtnSubmit := widget.NewButton("Submit", func() {
+		log.Println("BtnSubmit")
 		DataSearchBar = SearchText.Text
 		SearchText.Text = ""
-		Search.SearchBar(DataSearchBar, artists, w)
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
+		//SearchBar2(DataSearchBar, w)
 		//fmt.Println(DataSearchBar)
 	})
 	// TEST Geolocalisation (not permanent)
@@ -63,11 +63,11 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			layout.NewSpacer(),
 			BtnLieux,
 			layout.NewSpacer(),
-			SearchText,
 			// TEST Geolocalisation (not permanent)
 			BtnGeoLocalisation,
 			layout.NewSpacer(),
 			// TEST Geolocalisation (not permanent)
+			SearchText,
 			BtnSubmit,
 			layout.NewSpacer(),
 			BtnClose,
