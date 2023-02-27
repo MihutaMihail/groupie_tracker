@@ -42,27 +42,12 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
 	})
 
-	//A supp plus tard
-	SearchText := widget.NewEntry()
-	SearchText.SetPlaceHolder("Faire une recherche")
-	BtnSubmit := widget.NewButton("Submit", func() {
-		log.Println("BtnSubmit")
-		DataSearchBar = SearchText.Text
-		SearchText.Text = ""
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
-	})
-	//A supp plus tard
-
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		container.New(layout.NewGridLayout(7),
+		container.New(layout.NewGridLayout(5),
 			BtnHome,
 			BtnArtistes,
 			BtnLieux,
-			//A supp plus tard
-			SearchText,
-			BtnSubmit,
-			//A supp plus tard
 			entry,
 			BtnSubmit2))
 
