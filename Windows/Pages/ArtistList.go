@@ -13,7 +13,7 @@ import (
 func ArtistList(w fyne.Window) fyne.CanvasObject {
 	artists := DataAPI.GetArtistsData()
 
-	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(3))
+	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(5))
 
 	// création des buttons
 	for _, artist := range artists {
