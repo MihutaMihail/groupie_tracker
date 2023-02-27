@@ -1,20 +1,19 @@
 package pages
 
 import (
-	"fmt"
-	"image/color"
-	"log"
-
+	"Groupie-Tracker/DataAPI"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
+	"image/color"
+	"log"
 )
 
 func Navbar(w fyne.Window) fyne.CanvasObject {
-	//artists := DataAPI.GetArtistsData()
+	artists := DataAPI.GetArtistsData()
 	var DataSearchBar string
 	// NAVBAR BUTTONS ------------------------------------------------
 	BtnHome := widget.NewButton("Home", func() {
@@ -31,8 +30,19 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 
 	entry := fynex.NewCompletionEntry([]string{})
-	fmt.Println(entry)
+	entry.SetPlaceHolder("Coucou")
+	entry.OnChanged = func(s string) {
+		Autocompletion(s, entry, artists)
+	}
 
+	BtnSubmit2 := widget.NewButton("Submit", func() {
+		log.Println("BtnSubmit")
+		DataSearchBar = entry.Text
+		entry.Text = ""
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
+	})
+
+	//A supp plus tard
 	SearchText := widget.NewEntry()
 	SearchText.SetPlaceHolder("Faire une recherche")
 	BtnSubmit := widget.NewButton("Submit", func() {
@@ -40,18 +50,21 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		DataSearchBar = SearchText.Text
 		SearchText.Text = ""
 		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
-		//SearchBar2(DataSearchBar, w)
-		//fmt.Println(DataSearchBar)
 	})
+	//A supp plus tard
 
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		container.New(layout.NewGridLayout(5),
+		container.New(layout.NewGridLayout(7),
 			BtnHome,
 			BtnArtistes,
 			BtnLieux,
+			//A supp plus tard
 			SearchText,
-			BtnSubmit))
+			BtnSubmit,
+			//A supp plus tard
+			entry,
+			BtnSubmit2))
 
 	return nav
 }

@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	fynex "fyne.io/x/fyne/widget"
 	"strings"
 )
 
@@ -38,4 +39,30 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	}
 	fmt.Println()
 	return listContainer
+}
+
+func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Artist) {
+	var results []string
+	if len(s) < 3 {
+		entry.HideCompletion()
+		return
+	}
+	for _, artist := range artists {
+		if artist.Name == s {
+			results = append(results, artist.Name)
+
+		} else if len(s) <= len(artist.Name) {
+			for i := 0; i < len(artist.Name)-len(s)+1; i++ {
+				if strings.ToLower(artist.Name[i:i+len(s)]) == strings.ToLower(s) {
+					results = append(results, artist.Name)
+				}
+			}
+		}
+	}
+	if len(results) == 0 {
+		entry.HideCompletion()
+		return
+	}
+	entry.SetOptions(results)
+	entry.ShowCompletion()
 }
