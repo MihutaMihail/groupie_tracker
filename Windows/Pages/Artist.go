@@ -7,7 +7,6 @@ import (
 	"image/color"
 	"log"
 	"strconv"
-	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -77,7 +76,7 @@ func DateScreen(id int) *fyne.Container {
 	// make rows one by one
 	for _, location := range locations.Locations {
 		// add the label/ Location
-		locationReadable := locationToReadable(location)
+		locationReadable := LocationToReadable(location)
 		locationText := canvas.NewText(locationReadable+" : ", color.Black)
 		locationText.TextStyle.Bold = true
 		final.Add(layout.NewSpacer())
@@ -95,23 +94,21 @@ func makeLocationDateList(id int, location string, relations DataAPI.Relation) *
 	final := container.NewHBox()
 	neededRelation := relations.DatesLocations[location]
 	neededRelation = utility.SortDates(neededRelation)
+	textFinal := ""
 
 	// make columns one by one
 	for i, date := range neededRelation {
-		dateText := canvas.NewText(date, color.Black)
-		final.Add(dateText)
+		textFinal += date
 
 		if i != len(neededRelation)-1 {
-			final.Add(canvas.NewText(", ", color.Black))
+			textFinal += ", "
 		}
 	}
-	return final
-}
+	textUnwrapped := canvas.NewText(textFinal, color.Black)
+	textWrapped := utility.CanvasTextWrap(50, textUnwrapped, color.Black)
+	final.Add(textWrapped)
 
-func locationToReadable(loc string) string {
-	locationSplit := strings.Split(loc, "-")
-	location := locationSplit[0] + " (" + locationSplit[1] + ")"
-	return location
+	return final
 }
 
 func getLocationsByID(Id int) DataAPI.Location {
