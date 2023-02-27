@@ -87,7 +87,9 @@ func DateScreen(id int) *fyne.Container {
 		final.Add(layout.NewSpacer())
 
 	}
-	return final
+	finalScroll := container.NewScroll(final)
+	finalScroll.SetMinSize(fyne.NewSize(300, 500))
+	return container.NewVBox(finalScroll)
 }
 
 func makeLocationDateList(id int, location string, relations DataAPI.Relation) *fyne.Container {

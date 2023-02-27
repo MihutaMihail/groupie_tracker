@@ -15,14 +15,14 @@ func CanvasTextWrap(upperLimit int, entryText *canvas.Text, color color.Color) *
 	string2 := ""
 
 	// if it's too long
-	if len(text) > upperLimit-10 {
+	if len(text) > upperLimit {
 
 		// on parcours le texte a partir de la limite
 		for i := upperLimit - 10; i < len(text); i++ {
 			// quand on trouve un espace
 			if text[i] == ' ' {
 				string1 = text[0 : i-1]
-				string2 = text[i : len(text)-2]
+				string2 = text[i:]
 				break
 			}
 		}
