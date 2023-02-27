@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"image/color"
 	"log"
 
@@ -9,6 +10,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	fynex "fyne.io/x/fyne/widget"
 )
 
 func Navbar(w fyne.Window) fyne.CanvasObject {
@@ -27,6 +29,9 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		log.Println("BtnLieux")
 		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, MakeLieuxList(w)))
 	})
+
+	entry := fynex.NewCompletionEntry([]string{})
+	fmt.Println(entry)
 
 	SearchText := widget.NewEntry()
 	SearchText.SetPlaceHolder("Faire une recherche")
