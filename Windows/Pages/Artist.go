@@ -12,9 +12,10 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
 )
 
-func Artist(artist DataAPI.Artist) fyne.CanvasObject {
+func Artist(artist DataAPI.Artist, w fyne.Window) fyne.CanvasObject {
 	// IMAGE IMPORT
 	r, err := fyne.LoadResourceFromURLString(artist.Image)
 	if err != nil {
@@ -54,7 +55,7 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 	LeftSide := container.NewVBox(image1, BLText)
 
 	// DateGrid
-	DateGrid := container.NewVBox(layout.NewSpacer(), container.NewMax(canvas.NewRectangle(color.RGBA{R: 100, G: 100, B: 115, A: 1}), DateScreen(artist.Id)), layout.NewSpacer())
+	DateGrid := container.NewVBox(layout.NewSpacer(), container.NewMax(canvas.NewRectangle(color.RGBA{R: 100, G: 100, B: 115, A: 1}), DateScreen(artist.Id, w)), layout.NewSpacer())
 
 	//
 
@@ -67,7 +68,7 @@ func Artist(artist DataAPI.Artist) fyne.CanvasObject {
 	return body
 }
 
-func DateScreen(id int) *fyne.Container {
+func DateScreen(id int, w fyne.Window) *fyne.Container {
 	final := container.NewVBox()
 	// get data
 	locations := getLocationsByID(id)
@@ -77,10 +78,14 @@ func DateScreen(id int) *fyne.Container {
 	for _, location := range locations.Locations {
 		// add the label/ Location
 		locationReadable := LocationToReadable(location)
-		locationText := canvas.NewText(locationReadable+" : ", color.Black)
-		locationText.TextStyle.Bold = true
+		locationText := locationReadable
+		locationBtn := widget.NewButton(locationText, nil)
+		locationBtn.OnTapped = func() {
+			FindLocation(locationBtn.Text, DataAPI.GetLocationsData(), w)
+		}
+
 		final.Add(layout.NewSpacer())
-		final.Add(locationText)
+		final.Add(locationBtn)
 
 		// add the dates
 		final.Add(makeLocationDateList(id, location, relations))

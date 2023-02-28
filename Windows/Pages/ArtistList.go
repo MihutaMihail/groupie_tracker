@@ -32,7 +32,7 @@ func FindArtist(name string, artists []DataAPI.Artist, w fyne.Window) {
 	for _, artist := range artists {
 		if artist.Name == name {
 			// Lance la navbar la page Artist, modifé avec la data correspondante
-			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Artist(artist)))
+			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Artist(artist, w)))
 			log.Println("Went to " + name + " (artist) page")
 		}
 	}

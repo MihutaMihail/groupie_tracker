@@ -3,11 +3,12 @@ package pages
 import (
 	"Groupie-Tracker/DataAPI"
 	"fmt"
+	"strings"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
-	"strings"
 )
 
 func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
@@ -21,7 +22,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 			AlredyInside := false
 			if strings.ToLower(artist.Name) == strings.ToLower(DataSearchBar) { // Cas ou le nom est exactememnt pareil
 				fmt.Println("Trouvé cet unique artiste" + artist.Name)
-				listContainer = fyne.NewContainer(fyne.CanvasObject(Artist(artist)))
+				listContainer = fyne.NewContainer(fyne.CanvasObject(Artist(artist, w)))
 
 			} else if len(DataSearchBar) <= len(artist.Name) { // cas ou le terme cherhcer est plus cours que les noms
 				for i := 0; i < len(artist.Name)-len(DataSearchBar)+1; i++ { //-len(DataSearchBar)
