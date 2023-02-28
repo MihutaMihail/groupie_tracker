@@ -1,7 +1,6 @@
 package Windows
 
 import (
-	"Groupie-Tracker/DataAPI"
 	pages "Groupie-Tracker/Windows/Pages"
 
 	"fyne.io/fyne/v2"
@@ -19,9 +18,6 @@ func MainWindow(a fyne.App) {
 	body := pages.Home(w)
 	nav := pages.Navbar(w)
 	content := container.NewBorder(nav, nil, nil, nil, body)
-
-	// TEMP affche la datas en terminal, Mihail
-	DataAPI.GetArtistsData()
 
 	// garder à la fin ; run et affiche la fenêtre, quand elle est fermé, stop l'appli
 	w.SetContent(content)

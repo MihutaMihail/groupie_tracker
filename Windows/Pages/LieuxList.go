@@ -20,6 +20,7 @@ func MakeLieuxList(w fyne.Window) *fyne.Container {
 
 	for _, locations := range locationsDATA {
 		for _, location := range locations.Locations {
+			location = LocationToReadable(location)
 			for _, locationPassed := range allLocations {
 				if locationPassed == location {
 					isDouble = true
@@ -48,11 +49,13 @@ func MakeLieuxList(w fyne.Window) *fyne.Container {
 }
 
 func FindLocation(name string, loc []DataAPI.Location, w fyne.Window) {
+	nameBase := LocationToBase(name)
 	for _, location := range loc {
 		for _, locationString := range location.Locations {
-			if locationString == name {
+			if locationString == nameBase {
 				// Lance la navbar la page Artist, modifé avec la data correspondante
-				w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Lieux(locationString)))
+
+				w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Lieux(nameBase)))
 				log.Println("Went to " + name + " (location) page")
 			}
 		}

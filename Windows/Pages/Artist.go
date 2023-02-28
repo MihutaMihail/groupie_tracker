@@ -113,6 +113,7 @@ func makeLocationDateList(id int, location string, relations DataAPI.Relation) *
 	return final
 }
 
+// get the locations DATA with corresponding ID
 func getLocationsByID(Id int) DataAPI.Location {
 	locations := DataAPI.GetLocationsData()
 	for _, location := range locations {
@@ -124,6 +125,7 @@ func getLocationsByID(Id int) DataAPI.Location {
 	return locations[0]
 }
 
+// get the locations DATA with corresponding ID
 func getRelationByID(Id int) DataAPI.Relation {
 	relations := DataAPI.GetRelationsAPI()
 	for _, relation := range relations {
