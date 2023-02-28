@@ -21,8 +21,8 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 		for _, artist := range artists {
 			AlredyInside := false
 			if strings.ToLower(artist.Name) == strings.ToLower(DataSearchBar) { // Cas ou le nom est exactememnt pareil
-				fmt.Println("Trouvé cet unique artiste" + artist.Name)
-				listContainer = fyne.NewContainer(fyne.CanvasObject(Artist(artist, w)))
+				fmt.Println("Trouvé cet unique artist " + artist.Name)
+				return fyne.CanvasObject(Artist(artist))
 
 			} else if len(DataSearchBar) <= len(artist.Name) { // cas ou le terme cherhcer est plus cours que les noms
 				for i := 0; i < len(artist.Name)-len(DataSearchBar)+1; i++ { //-len(DataSearchBar)
@@ -54,7 +54,6 @@ func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Ar
 		AlredyInside := false
 		if artist.Name == s {
 			results = append(results, artist.Name)
-
 		} else if len(s) <= len(artist.Name) {
 			for i := 0; i < len(artist.Name)-len(s)+1; i++ {
 				if strings.ToLower(artist.Name[i:i+len(s)]) == strings.ToLower(s) && !AlredyInside {
