@@ -9,7 +9,7 @@ import (
 
 func MainWindow(a fyne.App) {
 	w := a.NewWindow("Groupie Tracker")
-	w.Resize(fyne.NewSize(1200, 700))
+	w.Resize(fyne.NewSize(1450, 700))
 	w.SetMaster()
 
 	// à désactiver pour les tests et l'accès console

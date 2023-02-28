@@ -2,6 +2,7 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	utility "Groupie-Tracker/Utility"
 	"image/color"
 	"strconv"
 
@@ -14,14 +15,16 @@ import (
 )
 
 var (
-	oldestCreationDate   = 9999
-	youngestCreationDate = 0
-	highestNbOfMembers   = 0
-	listOfShowMembers    []int
+	oldestCreationDate      = 9999
+	youngestCreationDate    = 0
+	highestNbOfMembers      = 0
+	listOfShowMembers       []int
+	listOfFirstAlbumDates   []string
+	listOfLocationsConcerts []string
 )
 
 func Filters(w fyne.Window) fyne.CanvasObject {
-	content := container.NewBorder(showFilters(w), nil, nil, nil, Home(w))
+	content := container.NewBorder(showFilters(w), nil, nil, nil, ArtistList(0, nil, false, w))
 	return content
 }
 
@@ -29,13 +32,15 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 	listOfShowMembers = nil
 
 	// SLIDER ------------------------------------------------------------------
-	initialValue := 2000.0 // random float
-	dataSliderNumber := binding.BindFloat(&initialValue)
-	sliderCreationDate := widget.NewSliderWithData(float64(getOldestCreationDate()), float64(getYoungestCreationDate()), dataSliderNumber)
-	dataLabelCreationDate := widget.NewLabelWithData(binding.FloatToStringWithFormat(dataSliderNumber, "%0.0f"))
+	initialValueSlider := 2000.0 // random float
+	bindingValueSlider := binding.BindFloat(&initialValueSlider)
+	sliderCreationDate := widget.NewSliderWithData(float64(getOldestCreationDate()), float64(getYoungestCreationDate()), bindingValueSlider)
+	numberCreationDate := widget.NewLabelWithData(binding.FloatToStringWithFormat(bindingValueSlider, "%0.0f"))
+	textCreationDate := canvas.NewText("Career Starting Year", color.White)
 
 	// CHECKBOX ----------------------------------------------------------------
 	checkboxContainer := container.New(layout.NewHBoxLayout())
+	textNbMembers := canvas.NewText("N° Members", color.White)
 
 	for i := 1; i <= getHighestNumberOfMembers(); i++ {
 		checkboxMembers := widget.NewCheck(strconv.Itoa(i), nil)
@@ -54,18 +59,41 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 		checkboxContainer.Add(checkboxMembers)
 	}
 
+	// FIRST ALBUM DATE -----------------------------------------------------------------
+	textFirstAlbumDate := canvas.NewText("First Album Date", color.White)
+
+	for _, artist := range DataAPI.GetArtistsData() {
+		listOfFirstAlbumDates = append(listOfFirstAlbumDates, artist.FirstAlbum)
+	}
+	selectFirstAlbumDate := widget.NewSelect(utility.SortDates(listOfFirstAlbumDates), func(firstAlbumDate string) {})
+
+	// LOCATIONS OF CONCERTS -----------------------------------------------------------------
+	textLocationConcert := canvas.NewText("Location Concert", color.White)
+
+	for _, location := range DataAPI.GetLocationsData() {
+		//locationReadable := LocationToReadable(location.Locations[index])
+		listOfLocationsConcerts = append(listOfLocationsConcerts, location.Locations...)
+	}
+	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(locationConcert string) {})
+
 	// SUBMIT -----------------------------------------------------------------
 	BtnSubmit := widget.NewButton("SubmitFilters", func() {
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(int(initialValue), listOfShowMembers, true, w)))
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(int(initialValueSlider), listOfShowMembers, true, w)))
 	})
 
 	// NAVBAR ITEMS -----------------------------------------------------------
-	sliderLabelCheckbox := container.NewHBox(container.NewCenter(container.NewHBox(dataLabelCreationDate)), container.NewCenter(checkboxContainer))
+	sliderInfo := container.NewHBox(container.NewCenter(container.NewHBox(textCreationDate, numberCreationDate)))
+	checkboxInfo := container.NewHBox(container.NewCenter(container.NewHBox(textNbMembers, checkboxContainer)))
+	firstAlbumInfo := container.NewHBox(container.NewCenter(container.NewHBox(textFirstAlbumDate, selectFirstAlbumDate)))
+	locationConcertInfo := container.NewHBox(container.NewCenter(container.NewHBox(textLocationConcert, selectLocationConcert)))
 
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
 		container.New(layout.NewGridLayout(3),
 			sliderCreationDate,
-			sliderLabelCheckbox,
+			sliderInfo,
+			checkboxInfo,
+			firstAlbumInfo,
+			locationConcertInfo,
 			BtnSubmit))
 
 	return nav
@@ -81,7 +109,6 @@ func getOldestCreationDate() int {
 			oldestCreationDate = artist.CreationDate
 		}
 	}
-
 	return oldestCreationDate
 }
 
@@ -94,7 +121,6 @@ func getYoungestCreationDate() int {
 			youngestCreationDate = artist.CreationDate
 		}
 	}
-
 	return youngestCreationDate
 }
 
@@ -112,6 +138,5 @@ func getHighestNumberOfMembers() int {
 		}
 		nbOfMembers = 0
 	}
-
 	return highestNbOfMembers
 }
