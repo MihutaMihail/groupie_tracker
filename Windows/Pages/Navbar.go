@@ -2,14 +2,15 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	"image/color"
+	"log"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
-	"image/color"
-	"log"
 )
 
 func Navbar(w fyne.Window) fyne.CanvasObject {
@@ -22,7 +23,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 	BtnArtistes := widget.NewButton("Artistes", func() {
 		log.Println("BtnArtistes")
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(w)))
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(0, nil, false, w)))
 	})
 	BtnLieux := widget.NewButton("Lieux", func() {
 		log.Println("BtnLieux")
@@ -35,6 +36,11 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		Autocompletion(s, entry, artists)
 	}
 
+	BtnFiltres := widget.NewButton("Filters", func() {
+		log.Println("BtnFiltres")
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Filters(w)))
+	})
+
 	BtnSubmit := widget.NewButton("Submit", func() {
 		log.Println("BtnSubmit")
 		DataSearchBar = entry.Text
@@ -44,11 +50,12 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 
 	// NAVBAR ---------------------------------------------------------
 	nav := container.NewMax(canvas.NewRectangle(color.RGBA{R: 31, G: 31, B: 35, A: 1}),
-		container.New(layout.NewGridLayout(5),
+		container.New(layout.NewGridLayout(6),
 			BtnHome,
 			BtnArtistes,
 			BtnLieux,
 			entry,
+			BtnFiltres,
 			BtnSubmit))
 
 	return nav

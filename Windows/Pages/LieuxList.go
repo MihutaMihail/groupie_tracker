@@ -48,6 +48,7 @@ func MakeLieuxList(w fyne.Window) *fyne.Container {
 	return container.NewCenter(final)
 }
 
+// Go to the location page with the readable name
 func FindLocation(name string, loc []DataAPI.Location, w fyne.Window) {
 	nameBase := LocationToBase(name)
 	for _, location := range loc {
@@ -55,8 +56,8 @@ func FindLocation(name string, loc []DataAPI.Location, w fyne.Window) {
 			if locationString == nameBase {
 				// Lance la navbar la page Artist, modifé avec la data correspondante
 
-				w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Lieux(nameBase)))
 				log.Println("Went to " + name + " (location) page")
+				w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Lieux(nameBase)))
 			}
 		}
 	}

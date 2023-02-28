@@ -17,13 +17,13 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	DataSearchBar = IsAutocompletion(DataSearchBar)
 
 	if len(DataSearchBar) == 0 {
-		return ArtistList(w)
+		return ArtistList(0, nil, false, w)
 	} else {
 		for _, artist := range artists {
 			AlredyInside := false
 			if strings.ToLower(artist.Name) == strings.ToLower(DataSearchBar) { // Cas ou le nom est exactememnt pareil
 				fmt.Println("Trouvé cet unique artist " + artist.Name)
-				return fyne.CanvasObject(Artist(artist))
+				return fyne.CanvasObject(Artist(artist, w))
 
 			} else if len(DataSearchBar) <= len(artist.Name) { // cas ou le terme cherhcer est plus cours que les noms
 				for i := 0; i < len(artist.Name)-len(DataSearchBar)+1; i++ { //-len(DataSearchBar)

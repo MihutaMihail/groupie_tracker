@@ -1,6 +1,7 @@
 package Geocoding
 
 import (
+	"fmt"
 	"strconv"
 )
 
@@ -18,6 +19,8 @@ func GetGeolocalisationMap(coordinates []float64) string {
 		"center=lonlat:" + longitude + "," + latitude + "&zoom=13.8135&" +
 		"marker=lonlat:" + longitude + "," + latitude + ";color:red;" +
 		"size:medium&apiKey=" + geoapifyKeyAPI)
+
+	fmt.Println("Map Marker URL = " + urlMapMarker)
 
 	return urlMapMarker
 }

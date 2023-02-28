@@ -20,9 +20,11 @@ var (
 
 // Function that will return the geographical coordinates of a place
 func GetGeocodeCoordinates(locationMaps string) []float64 {
+	coordinatesLocation = nil
+
 	locationMaps = makeLocationURLValid(locationMaps)
 	urlOpenCage := ("https://api.opencagedata.com/geocode/v1/json?q=" + locationMaps + "&key=" + openCageKeyAPI)
-	fmt.Println("Geocode URL " + urlOpenCage)
+	fmt.Println("Geographical Coordinates URL = " + urlOpenCage)
 
 	response, err := http.Get(urlOpenCage)
 	if err != nil {
