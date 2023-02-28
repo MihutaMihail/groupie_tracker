@@ -53,7 +53,6 @@ func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Ar
 		AlredyInside := false
 		if artist.Name == s {
 			results = append(results, artist.Name)
-
 		} else if len(s) <= len(artist.Name) {
 			for i := 0; i < len(artist.Name)-len(s)+1; i++ {
 				if strings.ToLower(artist.Name[i:i+len(s)]) == strings.ToLower(s) && !AlredyInside {
