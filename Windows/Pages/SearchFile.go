@@ -7,12 +7,14 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
+	"strconv"
 	"strings"
 )
 
 func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	artists := DataAPI.GetArtistsData()
 	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(3))
+	DataSearchBar = IsAutocompletion(DataSearchBar)
 
 	if len(DataSearchBar) == 0 {
 		return ArtistList(w)
@@ -38,17 +40,74 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 				}
 			}
 		}
+
+		for _, artist := range artists {
+			AlreadyInside := false
+			if len(strconv.Itoa(artist.CreationDate)) == len(DataSearchBar) {
+				if strconv.Itoa(artist.CreationDate) == DataSearchBar {
+					fmt.Println("Trouvé cet artist " + artist.Name)
+
+					btn := widget.NewButton(artist.Name, nil)
+					btn.OnTapped = func() {
+						FindArtist(btn.Text, artists, w)
+					}
+					listContainer.Add(btn)
+				}
+			} else if len(DataSearchBar) < len(strconv.Itoa(artist.CreationDate)) {
+				for i := 0; i < len(strconv.Itoa(artist.CreationDate))-len(DataSearchBar); i++ { //-len(DataSearchBar)
+					if strconv.Itoa(artist.CreationDate)[i:i+len(DataSearchBar)] == DataSearchBar && !AlreadyInside {
+						fmt.Println("Trouvé cet artist " + artist.Name)
+
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+						AlreadyInside = true
+					}
+				}
+			}
+		}
 	}
+
 	fmt.Println()
 	return listContainer
 }
 
+func IsArtistName() {
+
+}
+
+func IsAutocompletion(DataSearchBar string) string {
+	NewDataSearchBar := DataSearchBar
+
+	for i := 0; i < len(DataSearchBar); i++ {
+		if string(DataSearchBar[i]) == "(" {
+			NewDataSearchBar = DataSearchBar[0 : i-1]
+		}
+	}
+	return NewDataSearchBar
+}
+
+// Fonctions pour l'autocompletion
 func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Artist) {
 	var results []string
-	if len(s) < 3 {
+	if len(s) < 1 {
 		entry.HideCompletion()
 		return
 	}
+	results = AutoIsArtistName(s, artists, results)
+	results = AutoIsCreationDate(s, artists, results)
+
+	if len(results) == 0 {
+		entry.HideCompletion()
+		return
+	}
+	entry.SetOptions(results)
+	entry.ShowCompletion()
+}
+
+func AutoIsArtistName(s string, artists []DataAPI.Artist, results []string) []string {
 	for _, artist := range artists {
 		AlredyInside := false
 		if artist.Name == s {
@@ -62,10 +121,25 @@ func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Ar
 			}
 		}
 	}
-	if len(results) == 0 {
-		entry.HideCompletion()
-		return
+	return results
+}
+
+func AutoIsCreationDate(s string, artists []DataAPI.Artist, results []string) []string {
+	tmp, _ := strconv.Atoi(s)
+
+	for _, artist := range artists {
+		AlredyInside := false
+
+		if artist.CreationDate == tmp {
+			results = append(results, artist.Name+" (Creation Date)")
+		} else if len(s) <= len(strconv.Itoa(artist.CreationDate)) {
+			for i := 0; i < len(strconv.Itoa(artist.CreationDate))-len(s)+1; i++ {
+				if strconv.Itoa(artist.CreationDate)[i:i+len(s)] == s && !AlredyInside {
+					results = append(results, artist.Name+" (Creation Date)")
+					AlredyInside = true
+				}
+			}
+		}
 	}
-	entry.SetOptions(results)
-	entry.ShowCompletion()
+	return results
 }

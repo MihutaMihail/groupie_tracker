@@ -2,13 +2,12 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
-	"log"
-	"sort"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	"log"
+	"sort"
 )
 
 func MakeLieuxList(w fyne.Window) *fyne.Container {
@@ -45,6 +44,7 @@ func MakeLieuxList(w fyne.Window) *fyne.Container {
 
 	final := container.NewScroll(listContainer)
 	final.SetMinSize(fyne.NewSize(1000, 600))
+
 	return container.NewCenter(final)
 }
 
