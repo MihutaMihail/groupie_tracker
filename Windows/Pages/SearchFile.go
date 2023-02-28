@@ -16,7 +16,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(3))
 
 	if len(DataSearchBar) == 0 {
-		return ArtistList(w)
+		return ArtistList(0, nil, false, w)
 	} else {
 		for _, artist := range artists {
 			AlredyInside := false
