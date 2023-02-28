@@ -19,6 +19,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	if len(DataSearchBar) == 0 {
 		return ArtistList(0, nil, false, w)
 	} else {
+		// Check pour le nom
 		for _, artist := range artists {
 			AlredyInside := false
 			if strings.ToLower(artist.Name) == strings.ToLower(DataSearchBar) { // Cas ou le nom est exactememnt pareil
@@ -41,6 +42,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 			}
 		}
 
+		// Check pour la date de création
 		for _, artist := range artists {
 			AlreadyInside := false
 			if len(strconv.Itoa(artist.CreationDate)) == len(DataSearchBar) {
@@ -54,7 +56,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 					listContainer.Add(btn)
 				}
 			} else if len(DataSearchBar) < len(strconv.Itoa(artist.CreationDate)) {
-				for i := 0; i < len(strconv.Itoa(artist.CreationDate))-len(DataSearchBar); i++ { //-len(DataSearchBar)
+				for i := 0; i <= len(strconv.Itoa(artist.CreationDate))-len(DataSearchBar); i++ { //-len(DataSearchBar)
 					if strconv.Itoa(artist.CreationDate)[i:i+len(DataSearchBar)] == DataSearchBar && !AlreadyInside {
 						fmt.Println("Trouvé cet artist " + artist.Name)
 
