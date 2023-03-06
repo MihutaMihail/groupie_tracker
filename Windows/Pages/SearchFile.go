@@ -32,6 +32,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 				for i := 0; i < len(artist.Name)-len(DataSearchBar)+1; i++ { //-len(DataSearchBar)
 					if strings.ToLower(artist.Name[i:i+len(DataSearchBar)]) == strings.ToLower(DataSearchBar) && !AlredyInside {
 						listContainer = AddArtistToList(listContainer, artist, artists, w)
+						fmt.Println("Trouvé cet artist " + artist.Name)
 						AlredyInside = true
 					}
 				}
@@ -46,8 +47,46 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 					for i := 0; i < len(member)-len(DataSearchBar)+1; i++ { //-len(DataSearchBar)
 						if strings.ToLower(member[i:i+len(DataSearchBar)]) == strings.ToLower(DataSearchBar) && !AlredyInside {
 							listContainer = AddArtistToList(listContainer, artist, artists, w)
+							fmt.Println("Trouvé cet artist grace a ses membres : " + artist.Name)
 							AlredyInside = true
 						}
+					}
+				}
+			}
+		}
+
+		// Check pour la localisation
+		// ATENTION ca peu fortement ralentir le programme
+
+		//for _, artist := range artists {
+		//	locations := getLocationsByID(artist.Id)
+		//	AlredyInside := false
+		//	for _, loc := range locations.Locations {
+		//		loc = LocationToReadable(loc)
+		//		if len(DataSearchBar) <= len(loc) {
+		//			for i := 0; i < len(loc)-len(DataSearchBar)+1; i++ {
+		//				if strings.ToLower(loc[i:i+len(DataSearchBar)]) == strings.ToLower(DataSearchBar) && !AlredyInside {
+		//					listContainer = AddArtistToList(listContainer, artist, artists, w)
+		//					fmt.Println("Trouvé cet artist grace a sa localisation : " + artist.Name)
+		//					AlredyInside = true
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
+
+		// Check pour la date de premier album
+		for _, artist := range artists {
+			AlredyInside := false
+			if artist.FirstAlbum == DataSearchBar {
+				fmt.Println("Trouvé cet unique artist grace a son premier album : " + artist.Name)
+				return fyne.CanvasObject(Artist(artist, w))
+			} else if len(DataSearchBar) <= len(artist.FirstAlbum) {
+				for i := 0; i < len(artist.FirstAlbum)-len(DataSearchBar)+1; i++ {
+					if artist.FirstAlbum[i:i+len(DataSearchBar)] == DataSearchBar && !AlredyInside {
+						listContainer = AddArtistToList(listContainer, artist, artists, w)
+						fmt.Println("Trouvé cet artist grace a son premier album : " + artist.Name)
+						AlredyInside = true
 					}
 				}
 			}
@@ -59,11 +98,13 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 			if len(strconv.Itoa(artist.CreationDate)) == len(DataSearchBar) {
 				if strconv.Itoa(artist.CreationDate) == DataSearchBar {
 					listContainer = AddArtistToList(listContainer, artist, artists, w)
+					fmt.Println("Trouvé cet unique artist grace a sa date de création : " + artist.Name)
 				}
 			} else if len(DataSearchBar) < len(strconv.Itoa(artist.CreationDate)) {
 				for i := 0; i <= len(strconv.Itoa(artist.CreationDate))-len(DataSearchBar); i++ { //-len(DataSearchBar)
 					if strconv.Itoa(artist.CreationDate)[i:i+len(DataSearchBar)] == DataSearchBar && !AlreadyInside {
 						listContainer = AddArtistToList(listContainer, artist, artists, w)
+						fmt.Println("Trouvé cet artist grace a sa date de création : " + artist.Name)
 						AlreadyInside = true
 					}
 				}
@@ -76,8 +117,6 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 }
 
 func AddArtistToList(listContainer *fyne.Container, artist DataAPI.Artist, artists []DataAPI.Artist, w fyne.Window) *fyne.Container {
-	fmt.Println("Trouvé cet artist " + artist.Name)
-
 	btn := widget.NewButton(artist.Name, nil)
 	btn.OnTapped = func() {
 		FindArtist(btn.Text, artists, w)
@@ -104,8 +143,13 @@ func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Ar
 		entry.HideCompletion()
 		return
 	}
+
 	results = AutoIsArtistName(s, artists, results)
 	results = AutoIsMembersName(s, artists, results)
+
+	// ATENTION ca peu fortement ralentir le programme
+	//results = AutoIsLocation(s, artists, results)
+
 	results = AutoIsFirstAlbum(s, artists, results)
 	results = AutoIsCreationDate(s, artists, results)
 
@@ -150,6 +194,25 @@ func AutoIsMembersName(s string, artists []DataAPI.Artist, results []string) []s
 			}
 		}
 
+	}
+	return results
+}
+
+func AutoIsLocation(s string, artists []DataAPI.Artist, results []string) []string {
+	for _, artist := range artists {
+		AlredyInside := false
+		locations := getLocationsByID(artist.Id)
+		for _, loc := range locations.Locations {
+			loc = LocationToReadable(loc)
+			if len(s) <= len(loc) {
+				for i := 0; i < len(loc)-len(s)+1; i++ {
+					if strings.ToLower(loc[i:i+len(s)]) == strings.ToLower(s) && !AlredyInside {
+						results = append(results, artist.Name+" (Loc : "+loc+")")
+						AlredyInside = true
+					}
+				}
+			}
+		}
 	}
 	return results
 }
