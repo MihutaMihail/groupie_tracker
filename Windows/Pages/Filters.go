@@ -75,15 +75,13 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 	for _, artist := range DataAPI.GetArtistsData() {
 		listOfFirstAlbumDates = append(listOfFirstAlbumDates, artist.FirstAlbum)
 	}
+	listOfFirstAlbumDates = FilterDouble(listOfFirstAlbumDates)
 	selectFirstAlbumDate := widget.NewSelect(utility.SortDates(listOfFirstAlbumDates), func(firstAlbumDate string) {})
 
 	// LOCATIONS OF CONCERTS -----------------------------------------------------------------
 	textLocationConcert := canvas.NewText("Location Concert", color.White)
 
-	for _, location := range DataAPI.GetLocationsData() {
-		//locationReadable := LocationToReadable(location.Locations[index])
-		listOfLocationsConcerts = append(listOfLocationsConcerts, location.Locations...)
-	}
+	listOfLocationsConcerts = GetLocationList(DataAPI.GetLocationsData())
 	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(locationConcert string) {})
 
 	// NAVBAR ITEMS -----------------------------------------------------------
