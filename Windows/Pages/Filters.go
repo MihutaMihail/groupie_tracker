@@ -23,10 +23,12 @@ var (
 	listOfLocationsConcerts []string
 	initialValueSlider      = 2000.0 // random float
 	boolDisableSlider       = false
+	firstAlbumDate          string
+	locationConcert         string
 )
 
 func Filters(w fyne.Window) fyne.CanvasObject {
-	content := container.NewBorder(showFilters(w), nil, nil, nil, ArtistList(0, nil, false, w))
+	content := container.NewBorder(showFilters(w), nil, nil, nil, ArtistList(0, false, nil, "", "", false, w))
 	return content
 }
 
@@ -75,16 +77,21 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 	for _, artist := range DataAPI.GetArtistsData() {
 		listOfFirstAlbumDates = append(listOfFirstAlbumDates, artist.FirstAlbum)
 	}
-	selectFirstAlbumDate := widget.NewSelect(utility.SortDates(listOfFirstAlbumDates), func(firstAlbumDate string) {})
+	selectFirstAlbumDate := widget.NewSelect(utility.SortDates(listOfFirstAlbumDates), func(textFirstAlbumDate string) {})
+	selectFirstAlbumDate.OnChanged = func(choice string) {
+		firstAlbumDate = choice
+	}
 
 	// LOCATIONS OF CONCERTS -----------------------------------------------------------------
 	textLocationConcert := canvas.NewText("Location Concert", color.White)
 
 	for _, location := range DataAPI.GetLocationsData() {
-		//locationReadable := LocationToReadable(location.Locations[index])
 		listOfLocationsConcerts = append(listOfLocationsConcerts, location.Locations...)
 	}
-	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(locationConcert string) {})
+	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(textLocationConcert string) {})
+	selectLocationConcert.OnChanged = func(choice string) {
+		locationConcert = choice
+	}
 
 	// NAVBAR ITEMS -----------------------------------------------------------
 	sliderInfo := container.NewHBox(container.NewCenter(container.NewHBox(textCreationDate, numberCreationDate, checkboxDisableSlider)))
