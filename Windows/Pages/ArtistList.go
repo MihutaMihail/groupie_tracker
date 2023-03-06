@@ -36,6 +36,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					listContainer.Add(btn)
 				}
 			}
+			cleanStart()
 			// SLIDER + MEMBERS
 		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -49,6 +50,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// SLIDER + FIRST ALBUM
 		} else if (!disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate != "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -60,6 +62,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					listContainer.Add(btn)
 				}
 			}
+			cleanStart()
 			// SLIDER + LOCATION CONCERT
 		} else if (!disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -77,6 +80,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// SLIDER + MEMBERS + FIRST ALBUM
 		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -90,6 +94,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// SLIDER + MEMBERS + LOCATION CONCERT
 		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -109,6 +114,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// SLIDER + FIRST ALBUM + LOCATION CONCERT
 		} else if (!disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate != "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -126,6 +132,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// LOCATION CONCERT
 		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -141,6 +148,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// LOCATION CONCERT + FIRST ALBUM
 		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -156,6 +164,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// LOCATION CONCERT + MEMBERS
 		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -173,6 +182,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// LOCATION CONCERT + MEMBERS + FIRST ALBUM
 		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -190,6 +200,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// FIRST ALBUM
 		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate != "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -201,6 +212,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					listContainer.Add(btn)
 				}
 			}
+			cleanStart()
 			// FIRST ALBUM + MEMBERS
 		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -214,6 +226,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// MEMBERS
 		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert == "") {
 			for _, artist := range artists {
@@ -227,6 +240,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 			// SLIDER + MEMBERS + FIRST ALBUM + LOCATION CONCERT
 		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert != "") {
 			listIDLocations = getArtistsbyLocation(locationConcert)
@@ -244,6 +258,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 					}
 				}
 			}
+			cleanStart()
 		}
 	} else {
 		// FILTERS OFF -----------------------------------------------------------
@@ -286,4 +301,12 @@ func getArtistsbyLocation(locationFind string) []int {
 	}
 
 	return idLocations
+}
+
+func cleanStart() {
+	initialValueSlider = 2000
+	boolDisableSlider = false
+	listOfShowMembers = nil
+	firstAlbumDate = ""
+	locationConcert = ""
 }
