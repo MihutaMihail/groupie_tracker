@@ -21,6 +21,8 @@ var (
 	listOfShowMembers       []int
 	listOfFirstAlbumDates   []string
 	listOfLocationsConcerts []string
+	initialValueSlider      = 2000.0 // random float
+	boolDisableSlider       = false
 )
 
 func Filters(w fyne.Window) fyne.CanvasObject {
@@ -31,14 +33,22 @@ func Filters(w fyne.Window) fyne.CanvasObject {
 func showFilters(w fyne.Window) fyne.CanvasObject {
 	listOfShowMembers = nil
 
-	// SLIDER ------------------------------------------------------------------
-	initialValueSlider := 2000.0 // random float
+	// SLIDER CREATION DATE  ------------------------------------------------------------------
 	bindingValueSlider := binding.BindFloat(&initialValueSlider)
 	sliderCreationDate := widget.NewSliderWithData(float64(getOldestCreationDate()), float64(getYoungestCreationDate()), bindingValueSlider)
 	numberCreationDate := widget.NewLabelWithData(binding.FloatToStringWithFormat(bindingValueSlider, "%0.0f"))
 	textCreationDate := canvas.NewText("Career Starting Year", color.White)
 
-	// CHECKBOX ----------------------------------------------------------------
+	// CHECKBOX DISABLE SLIDER ----------------------------------------------------------------
+	checkboxDisableSlider := widget.NewCheck("Don't use slider", func(disableSlider bool) {
+		if disableSlider {
+			boolDisableSlider = true
+		} else {
+			boolDisableSlider = false
+		}
+	})
+
+	// CHECKBOX NUMBERS MEMBERS ----------------------------------------------------------------
 	checkboxContainer := container.New(layout.NewHBoxLayout())
 	textNbMembers := canvas.NewText("N° Members", color.White)
 
@@ -76,13 +86,8 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 	}
 	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(locationConcert string) {})
 
-	// SUBMIT -----------------------------------------------------------------
-	BtnSubmit := widget.NewButton("SubmitFilters", func() {
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(int(initialValueSlider), listOfShowMembers, true, w)))
-	})
-
 	// NAVBAR ITEMS -----------------------------------------------------------
-	sliderInfo := container.NewHBox(container.NewCenter(container.NewHBox(textCreationDate, numberCreationDate)))
+	sliderInfo := container.NewHBox(container.NewCenter(container.NewHBox(textCreationDate, numberCreationDate, checkboxDisableSlider)))
 	checkboxInfo := container.NewHBox(container.NewCenter(container.NewHBox(textNbMembers, checkboxContainer)))
 	firstAlbumInfo := container.NewHBox(container.NewCenter(container.NewHBox(textFirstAlbumDate, selectFirstAlbumDate)))
 	locationConcertInfo := container.NewHBox(container.NewCenter(container.NewHBox(textLocationConcert, selectLocationConcert)))
@@ -93,8 +98,7 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 			sliderInfo,
 			checkboxInfo,
 			firstAlbumInfo,
-			locationConcertInfo,
-			BtnSubmit))
+			locationConcertInfo))
 
 	return nav
 }
