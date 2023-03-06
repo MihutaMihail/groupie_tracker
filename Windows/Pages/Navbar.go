@@ -26,7 +26,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 	})
 	BtnArtistes := widget.NewButton("Artistes", func() {
 		log.Println("BtnArtistes")
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(0, nil, false, w)))
+		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(0, false, nil, "", "", false, w)))
 	})
 	BtnLieux := widget.NewButton("Lieux", func() {
 		log.Println("BtnLieux")
@@ -55,7 +55,9 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
 		} else {
 			log.Println("FILTERS ON")
-			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(int(initialValueSlider), listOfShowMembers, true, w)))
+			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil,
+				ArtistList(int(initialValueSlider), boolDisableSlider, listOfShowMembers, firstAlbumDate, locationConcert, true, w)))
+
 			filtersOn = false
 		}
 	})

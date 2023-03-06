@@ -23,10 +23,12 @@ var (
 	listOfLocationsConcerts []string
 	initialValueSlider      = 2000.0 // random float
 	boolDisableSlider       = false
+	firstAlbumDate          string
+	locationConcert         string
 )
 
 func Filters(w fyne.Window) fyne.CanvasObject {
-	content := container.NewBorder(showFilters(w), nil, nil, nil, ArtistList(0, nil, false, w))
+	content := container.NewBorder(showFilters(w), nil, nil, nil, ArtistList(0, false, nil, "", "", false, w))
 	return content
 }
 

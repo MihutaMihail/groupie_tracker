@@ -3,12 +3,13 @@ package pages
 import (
 	"Groupie-Tracker/DataAPI"
 	"fmt"
+	"strconv"
+	"strings"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
-	"strconv"
-	"strings"
 )
 
 func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
@@ -17,7 +18,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	DataSearchBar = IsAutocompletion(DataSearchBar)
 
 	if len(DataSearchBar) == 0 {
-		return ArtistList(0, nil, false, w)
+		return ArtistList(0, false, nil, "", "", false, w)
 	} else {
 
 		// Check pour le nom
