@@ -2,18 +2,37 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	"log"
+	"sort"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"log"
-	"sort"
 )
 
 func MakeLieuxList(w fyne.Window) *fyne.Container {
 	locationsDATA := DataAPI.GetLocationsData()
 	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(3))
 
+	allLocations := GetLocationList(locationsDATA)
+
+	for _, location := range allLocations {
+		btn := widget.NewButton(location, nil)
+		btn.OnTapped = func() {
+			FindLocation(btn.Text, locationsDATA, w)
+		}
+		listContainer.Add(btn)
+	}
+
+	final := container.NewScroll(listContainer)
+	final.SetMinSize(fyne.NewSize(1000, 600))
+
+	return container.NewCenter(final)
+}
+
+// return a list of all Location, sorted and cleared of doubles
+func GetLocationList(locationsDATA []DataAPI.Location) []string {
 	var allLocations []string
 	isDouble := false
 
@@ -33,19 +52,27 @@ func MakeLieuxList(w fyne.Window) *fyne.Container {
 	}
 
 	sort.Strings(allLocations)
+	return allLocations
+}
 
-	for _, location := range allLocations {
-		btn := widget.NewButton(location, nil)
-		btn.OnTapped = func() {
-			FindLocation(btn.Text, locationsDATA, w)
+// filtre une liste de string pour supprimer les doublons
+func FilterDouble(entryList []string) []string {
+	var finalList []string
+	isDouble := false
+
+	for _, entry := range entryList {
+		for _, entryPassed := range finalList {
+			if entryPassed == entry {
+				isDouble = true
+			}
 		}
-		listContainer.Add(btn)
+		if !isDouble {
+			finalList = append(finalList, entry)
+		}
+		isDouble = false
 	}
 
-	final := container.NewScroll(listContainer)
-	final.SetMinSize(fyne.NewSize(1000, 600))
-
-	return container.NewCenter(final)
+	return finalList
 }
 
 // Go to the location page with the readable name
