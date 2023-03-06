@@ -2,15 +2,14 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
-	"image/color"
-	"log"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	fynex "fyne.io/x/fyne/widget"
+	"image/color"
+	"log"
 )
 
 func Navbar(w fyne.Window) fyne.CanvasObject {

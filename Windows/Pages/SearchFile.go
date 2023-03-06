@@ -19,6 +19,7 @@ func SearchBar(DataSearchBar string, w fyne.Window) fyne.CanvasObject {
 	if len(DataSearchBar) == 0 {
 		return ArtistList(0, nil, false, w)
 	} else {
+
 		// Check pour le nom
 		for _, artist := range artists {
 			AlredyInside := false
