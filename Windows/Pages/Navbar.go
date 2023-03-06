@@ -12,6 +12,10 @@ import (
 	"log"
 )
 
+var (
+	filtersOn bool = false
+)
+
 func Navbar(w fyne.Window) fyne.CanvasObject {
 	artists := DataAPI.GetArtistsData()
 	var DataSearchBar string
@@ -37,6 +41,7 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 
 	BtnFiltres := widget.NewButton("Filters", func() {
 		log.Println("BtnFiltres")
+		filtersOn = true
 		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, Filters(w)))
 	})
 
@@ -44,7 +49,15 @@ func Navbar(w fyne.Window) fyne.CanvasObject {
 		log.Println("BtnSubmit")
 		DataSearchBar = entry.Text
 		entry.Text = ""
-		w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
+
+		if !filtersOn {
+			log.Println("FILTERS OFF")
+			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, SearchBar(DataSearchBar, w)))
+		} else {
+			log.Println("FILTERS ON")
+			w.SetContent(container.NewBorder(Navbar(w), nil, nil, nil, ArtistList(int(initialValueSlider), listOfShowMembers, true, w)))
+			filtersOn = false
+		}
 	})
 
 	// NAVBAR ---------------------------------------------------------
