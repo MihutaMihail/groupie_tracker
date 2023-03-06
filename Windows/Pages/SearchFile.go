@@ -105,6 +105,7 @@ func Autocompletion(s string, entry *fynex.CompletionEntry, artists []DataAPI.Ar
 	}
 	results = AutoIsArtistName(s, artists, results)
 	results = AutoIsMembersName(s, artists, results)
+	results = AutoIsFirstAlbum(s, artists, results)
 	results = AutoIsCreationDate(s, artists, results)
 
 	if len(results) == 0 {
@@ -148,6 +149,23 @@ func AutoIsMembersName(s string, artists []DataAPI.Artist, results []string) []s
 			}
 		}
 
+	}
+	return results
+}
+
+func AutoIsFirstAlbum(s string, artists []DataAPI.Artist, results []string) []string {
+	for _, artist := range artists {
+		AlredyInside := false
+		if artist.FirstAlbum == s {
+			results = append(results, artist.Name+" (First Album : "+artist.FirstAlbum+")")
+		} else if len(s) <= len(artist.FirstAlbum) {
+			for i := 0; i < len(artist.FirstAlbum)-len(s)+1; i++ {
+				if artist.FirstAlbum[i:i+len(s)] == s && !AlredyInside {
+					results = append(results, artist.Name+" (First Album : "+artist.FirstAlbum+")")
+					AlredyInside = true
+				}
+			}
+		}
 	}
 	return results
 }
