@@ -2,7 +2,6 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
-	"fmt"
 	"log"
 
 	"fyne.io/fyne/v2"
@@ -24,15 +23,6 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 		filtersOn = false
 	}
 
-	// REMOVE ONCE TESTS ARE COMPLETED
-	fmt.Println(numberSlider)
-	fmt.Println(disableSlider)
-	fmt.Println(nbOfMembers)
-	fmt.Println(firstAlbumDate)
-	fmt.Println(locationConcert)
-	fmt.Println(filtersOn)
-	// REMOVE ONCE TESTS ARE COMPLETED
-
 	// FILTERS ON -----------------------------------------------------------
 	if filtersOn {
 		// SLIDER
@@ -47,7 +37,7 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 				}
 			}
 			// SLIDER + MEMBERS
-		} else if (!disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert == "") {
+		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert == "") {
 			for _, artist := range artists {
 				for _, number := range nbOfMembers {
 					if artist.CreationDate == numberSlider && len(artist.Members) == number {
@@ -78,6 +68,173 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 				if artist.CreationDate == numberSlider {
 					for _, idLocation := range listIDLocations {
 						if artist.Id == idLocation {
+							btn := widget.NewButton(artist.Name, nil)
+							btn.OnTapped = func() {
+								FindArtist(btn.Text, artists, w)
+							}
+							listContainer.Add(btn)
+						}
+					}
+				}
+			}
+			// SLIDER + MEMBERS + FIRST ALBUM
+		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert == "") {
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					if artist.CreationDate == numberSlider && len(artist.Members) == number && artist.FirstAlbum == firstAlbumDate {
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+					}
+				}
+			}
+			// SLIDER + MEMBERS + LOCATION CONCERT
+		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				if artist.CreationDate == numberSlider {
+					for _, number := range nbOfMembers {
+						for _, idLocation := range listIDLocations {
+							if artist.Id == idLocation && len(artist.Members) == number {
+								btn := widget.NewButton(artist.Name, nil)
+								btn.OnTapped = func() {
+									FindArtist(btn.Text, artists, w)
+								}
+								listContainer.Add(btn)
+							}
+						}
+					}
+				}
+			}
+			// SLIDER + FIRST ALBUM + LOCATION CONCERT
+		} else if (!disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate != "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				if artist.CreationDate == numberSlider {
+					for _, idLocation := range listIDLocations {
+						if artist.Id == idLocation && artist.FirstAlbum == firstAlbumDate {
+							btn := widget.NewButton(artist.Name, nil)
+							btn.OnTapped = func() {
+								FindArtist(btn.Text, artists, w)
+							}
+							listContainer.Add(btn)
+						}
+					}
+				}
+			}
+			// LOCATION CONCERT
+		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				for _, idLocation := range listIDLocations {
+					if artist.Id == idLocation {
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+					}
+				}
+			}
+			// LOCATION CONCERT + FIRST ALBUM
+		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				for _, idLocation := range listIDLocations {
+					if artist.Id == idLocation && artist.FirstAlbum == firstAlbumDate {
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+					}
+				}
+			}
+			// LOCATION CONCERT + MEMBERS
+		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					for _, idLocation := range listIDLocations {
+						if artist.Id == idLocation && len(artist.Members) == number {
+							btn := widget.NewButton(artist.Name, nil)
+							btn.OnTapped = func() {
+								FindArtist(btn.Text, artists, w)
+							}
+							listContainer.Add(btn)
+						}
+					}
+				}
+			}
+			// LOCATION CONCERT + MEMBERS + FIRST ALBUM
+		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					for _, idLocation := range listIDLocations {
+						if artist.Id == idLocation && len(artist.Members) == number && artist.FirstAlbum == firstAlbumDate {
+							btn := widget.NewButton(artist.Name, nil)
+							btn.OnTapped = func() {
+								FindArtist(btn.Text, artists, w)
+							}
+							listContainer.Add(btn)
+						}
+					}
+				}
+			}
+			// FIRST ALBUM
+		} else if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate != "") && (locationConcert == "") {
+			for _, artist := range artists {
+				if artist.FirstAlbum == firstAlbumDate {
+					btn := widget.NewButton(artist.Name, nil)
+					btn.OnTapped = func() {
+						FindArtist(btn.Text, artists, w)
+					}
+					listContainer.Add(btn)
+				}
+			}
+			// FIRST ALBUM + MEMBERS
+		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert == "") {
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					if artist.FirstAlbum == firstAlbumDate && len(artist.Members) == number {
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+					}
+				}
+			}
+			// MEMBERS
+		} else if (disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate == "") && (locationConcert == "") {
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					if len(artist.Members) == number {
+						btn := widget.NewButton(artist.Name, nil)
+						btn.OnTapped = func() {
+							FindArtist(btn.Text, artists, w)
+						}
+						listContainer.Add(btn)
+					}
+				}
+			}
+			// SLIDER + MEMBERS + FIRST ALBUM + LOCATION CONCERT
+		} else if (!disableSlider) && (len(nbOfMembers) > 0) && (firstAlbumDate != "") && (locationConcert != "") {
+			listIDLocations = getArtistsbyLocation(locationConcert)
+
+			for _, artist := range artists {
+				for _, number := range nbOfMembers {
+					for _, idLocation := range listIDLocations {
+						if artist.Id == idLocation && len(artist.Members) == number && artist.FirstAlbum == firstAlbumDate && artist.CreationDate == numberSlider {
 							btn := widget.NewButton(artist.Name, nil)
 							btn.OnTapped = func() {
 								FindArtist(btn.Text, artists, w)
@@ -122,7 +279,7 @@ func getArtistsbyLocation(locationFind string) []int {
 
 	for _, location := range locations {
 		for _, locationArray := range location.Locations {
-			if locationArray == locationFind {
+			if locationArray == LocationToBase(locationFind) {
 				idLocations = append(idLocations, location.Id)
 			}
 		}

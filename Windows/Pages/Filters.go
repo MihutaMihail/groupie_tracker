@@ -79,12 +79,17 @@ func showFilters(w fyne.Window) fyne.CanvasObject {
 	}
 	listOfFirstAlbumDates = FilterDouble(listOfFirstAlbumDates)
 	selectFirstAlbumDate := widget.NewSelect(utility.SortDates(listOfFirstAlbumDates), func(firstAlbumDate string) {})
-
+	selectFirstAlbumDate.OnChanged = func(choice string) {
+		firstAlbumDate = choice
+	}
 	// LOCATIONS OF CONCERTS -----------------------------------------------------------------
 	textLocationConcert := canvas.NewText("Location Concert", color.White)
 
 	listOfLocationsConcerts = GetLocationList(DataAPI.GetLocationsData())
 	selectLocationConcert := widget.NewSelect(listOfLocationsConcerts, func(locationConcert string) {})
+	selectLocationConcert.OnChanged = func(choice string) {
+		locationConcert = choice
+	}
 
 	// NAVBAR ITEMS -----------------------------------------------------------
 	sliderInfo := container.NewHBox(container.NewCenter(container.NewHBox(textCreationDate, numberCreationDate, checkboxDisableSlider)))
