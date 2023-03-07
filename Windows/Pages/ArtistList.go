@@ -2,9 +2,11 @@ package pages
 
 import (
 	"Groupie-Tracker/DataAPI"
+	"image/color"
 	"log"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
@@ -18,6 +20,11 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 	artists := DataAPI.GetArtistsData()
 
 	listContainer := fyne.NewContainerWithLayout(layout.NewAdaptiveGridLayout(5))
+
+	titleNoResulsFound := canvas.NewText("NO RESULTS FOUND", color.White)
+	titleNoResulsFound.TextSize = 25
+	titleNoResulsFound.TextStyle.Bold = true
+	contentNoResultsFound := container.New(layout.NewCenterLayout(), titleNoResulsFound)
 
 	if (disableSlider) && (len(nbOfMembers) == 0) && (firstAlbumDate == "") && (locationConcert == "") {
 		filtersOn = false
@@ -274,7 +281,11 @@ func ArtistList(numberSlider int, disableSlider bool, nbOfMembers []int, firstAl
 		}
 	}
 
-	return listContainer
+	if len(listContainer.Objects) == 0 {
+		return contentNoResultsFound
+	} else {
+		return listContainer
+	}
 }
 
 func FindArtist(name string, artists []DataAPI.Artist, w fyne.Window) {
