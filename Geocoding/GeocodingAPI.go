@@ -11,7 +11,7 @@ import (
 
 // Declaration of variables
 var (
-	openCageKeyAPI      = "7fa0cecf85af4b48bb0f64bc929f7070" // Mihail Key
+	openCageKeyAPI      = "0ab9b2423491444dad997351884d1136" // Key
 	coordinatesLocation []float64
 	longitude           float64
 	latitude            float64
