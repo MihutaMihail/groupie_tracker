@@ -15,7 +15,7 @@ The goal of this project is to create an app using **fyne**. The app will be usi
 
 ## Demo Youtube
 #### Click on the image
-**TO BE ADDED...**
+[![Watch the video](https://img.youtube.com/vi/fn6k69TmOL0/maxresdefault.jpg)](https://www.youtube.com/watch?v=fn6k69TmOL0)
 
 ## Role in the project
 This is a group project between 3 people. My part can be seen inside **/DataAPI** and **/Geocoding** and **/Windows/Pages/Filters.go**. This means that I have worked on the access to the API and getting all the necessary info, retrieving the geolocation of the locations inside the original API **Groupie Trackers** and the filters. Everything else meaning the search bar, the design of the app itself or anything else that is not what I have mentioned above, has not been made by me.
